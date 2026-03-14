@@ -1,0 +1,28 @@
+#lockDialogGroup {
+    background: #000000 url(file:///usr/share/backgrounds/nature.png);
+    background-size: cover;
+    background-repeat: no-repeat;
+    background-position: center;
+}
+
+.login-dialog-logo {
+    background-image: url(file:///usr/share/images/login.png);
+    background-size: contain;
+    background-repeat: no-repeat;
+    background-position: center;
+    height: 100px;
+}
+
+/* Default user avatar for live user */
+.user-icon {
+    background-image: url(file:///usr/share/pxmaps/user.png);
+    background-size: cover;
+    background-repeat: no-repeat;
+    background-position: center;
+}
+
+/* If user has no avatar, force default */
+.user-icon StIcon {
+    icon-size: 96px;
+    background-image: url(file:///usr/share/pxmaps/user.png);
+}

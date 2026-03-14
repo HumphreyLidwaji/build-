@@ -1,0 +1,9 @@
+#!/bin/bash
+# Make Wazuh and Suricata services start automatically
+systemctl enable wazuh-manager
+systemctl enable wazuh-indexer
+systemctl enable wazuh-dashboard
+systemctl enable wazuh-agent
+systemctl enable suricata
+systemctl enable ufw
+systemctl enable fail2ban

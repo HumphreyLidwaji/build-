@@ -1,0 +1,12 @@
+#!/bin/bash
+
+set -e
+
+echo "Fixing permissions..."
+
+
+chmod +x /usr/bin/amfreos-fetch
+chmod +x /usr/bin/liveboot
+
+
+echo "Permissions fixed!"

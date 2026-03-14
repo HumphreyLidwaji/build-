@@ -1,0 +1,13 @@
+PRETTY_NAME="AmfreOS 2.0"
+NAME="AmfreOS"
+VERSION="2.0"
+VERSION_ID="2.0"
+VERSION_CODENAME="Nimbayaaa!"
+ID=amfreos
+ID_LIKE=debian
+RELEASE_TYPE=stable
+
+HOME_URL="https://humphreylidwaji.github.io/AmfreOS/"
+SUPPORT_URL="https://humphreylidwaji.github.io/AmfreOS/"
+BUG_REPORT_URL="https://humphreylidwaji.github.io/AmfreOS/"
+PRIVACY_POLICY_URL="https://humphreylidwaji.github.io/AmfreOS/"

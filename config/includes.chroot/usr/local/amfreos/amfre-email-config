@@ -1,0 +1,24 @@
+#!/bin/bash
+# AmfreOS Email Configuration Script
+
+RED='\033[0;31m'
+GREEN='\033[0;32m'
+CYAN='\033[0;36m'
+NC='\033[0m'
+
+MAIL_CMD=$(command -v mail)
+if [ -z "$MAIL_CMD" ]; then
+    echo -e "${CYAN}Installing mailutils for email alerts...${NC}"
+    sudo apt update
+    sudo apt install -y mailutils
+fi
+
+echo -e "${CYAN}Configure admin email for alerts${NC}"
+read -p "Enter admin email address: " ADMIN_EMAIL
+
+# Save to config file
+mkdir -p /usr/local/amfreos/config
+echo "ADMIN_EMAIL=\"$ADMIN_EMAIL\"" > /usr/local/amfreos/config/email.conf
+chmod 600 /usr/local/amfreos/config/email.conf
+
+echo -e "${GREEN}Email configured for alerts: $ADMIN_EMAIL${NC}"

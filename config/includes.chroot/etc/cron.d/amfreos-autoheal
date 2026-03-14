@@ -1,0 +1,3 @@
+# AmfreOS Self-Healing Cron
+# Runs every 5 minutes with logging and email alerts
+*/5 * * * * root /usr/local/amfreos/amfre-heal >> /var/log/amfreos-heal.log 2>&1

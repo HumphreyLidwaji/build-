@@ -1,0 +1,12 @@
+#!/bin/bash
+
+IP=$(hostname -I | awk '{print $1}')
+
+echo "Opening AmfreOS Security Dashboard..."
+
+if command -v xdg-open >/dev/null; then
+xdg-open https://$IP
+else
+echo "Open your browser and go to:"
+echo "https://$IP"
+fi

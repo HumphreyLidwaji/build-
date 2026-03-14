@@ -1,0 +1,77 @@
+#!/bin/bash
+
+# AmfreOS Zero-Touch Deployment
+
+RED='\033[0;31m'
+GREEN='\033[0;32m'
+CYAN='\033[0;36m'
+NC='\033[0m'
+
+discover_server() {
+
+echo -e "${CYAN}Scanning network for Wazuh server...${NC}"
+
+NETWORK=$(ip route | grep src | awk '{print $1}')
+
+SERVER=$(nmap -p 1514 --open $NETWORK -oG - \
+| awk '/Up$/{print $2}' | head -n1)
+
+}
+
+install_server() {
+
+echo -e "${CYAN}Installing Security Server...${NC}"
+
+curl -s https://packages.wazuh.com/key/GPG-KEY-WAZUH \
+| sudo gpg --dearmor -o /usr/share/keyrings/wazuh.gpg
+
+echo "deb [signed-by=/usr/share/keyrings/wazuh.gpg] https://packages.wazuh.com/4.x/apt/ stable main" \
+| sudo tee /etc/apt/sources.list.d/wazuh.list
+
+sudo apt update
+
+sudo apt install -y wazuh-manager wazuh-indexer wazuh-dashboard suricata
+
+sudo systemctl enable wazuh-manager wazuh-indexer wazuh-dashboard suricata
+sudo systemctl start wazuh-manager wazuh-indexer wazuh-dashboard suricata
+
+IP=$(hostname -I | awk '{print $1}')
+
+echo -e "${GREEN}Security Server deployed${NC}"
+echo "Dashboard: https://$IP"
+
+}
+
+install_endpoint() {
+
+discover_server
+
+if [ -z "$SERVER" ]; then
+read -p "Enter Wazuh server IP: " SERVER
+fi
+
+echo -e "${CYAN}Installing Endpoint Agent...${NC}"
+
+sudo WAZUH_MANAGER=$SERVER apt install -y wazuh-agent
+
+sudo systemctl enable wazuh-agent
+sudo systemctl start wazuh-agent
+
+echo -e "${GREEN}Endpoint enrolled to $SERVER${NC}"
+
+}
+
+echo
+echo "AmfreOS Security Deployment"
+echo
+echo "1 Security Server"
+echo "2 Endpoint Device"
+echo
+
+read -p "Select mode: " MODE
+
+case $MODE in
+1) install_server ;;
+2) install_endpoint ;;
+*) echo "Invalid option" ;;
+esac

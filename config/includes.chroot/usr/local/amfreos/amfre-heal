@@ -1,0 +1,72 @@
+#!/bin/bash
+# AmfreOS Self-Healing Script with Logging and Email Alerts
+
+LOG_FILE="/var/log/amfreos-heal.log"
+CONFIG_FILE="/usr/local/amfreos/config/email.conf"
+if [ -f "$CONFIG_FILE" ]; then
+    source "$CONFIG_FILE"
+else
+    ADMIN_EMAIL="admin@amfreos.local"
+fi
+# Ensure log file exists
+touch $LOG_FILE
+chmod 600 $LOG_FILE
+
+WAZUH_AGENT_SERVICE="wazuh-agent"
+
+# Email alert function
+send_alert() {
+    local SUBJECT="$1"
+    local BODY="$2"
+    
+    if command -v mail >/dev/null 2>&1; then
+        echo -e "$BODY" | mail -s "$SUBJECT" "$ADMIN_EMAIL"
+    else
+        echo "Mail command not found, cannot send email alert" >> "$LOG_FILE"
+    fi
+}
+
+# Check for brute-force attacks
+check_bruteforce() {
+    local ATTACKS=$(grep "authentication failed" /var/ossec/logs/alerts/alerts.json | tail -n5)
+    
+    if [ ! -z "$ATTACKS" ]; then
+        echo "$(date) - Brute force attempts detected" >> "$LOG_FILE"
+        
+        echo "$ATTACKS" | grep -oE "[0-9]+\.[0-9]+\.[0-9]+\.[0-9]+" | while read IP
+        do
+            if [ ! -z "$IP" ]; then
+                echo "$(date) - Blocking IP: $IP" >> "$LOG_FILE"
+                sudo ufw deny from $IP
+                send_alert "AmfreOS Security Alert: Brute Force Blocked" "Blocked IP: $IP detected on $(hostname)"
+            fi
+        done
+    fi
+}
+
+# Check for malware indicators
+check_malware() {
+    local MALWARE=$(grep "malware" /var/ossec/logs/alerts/alerts.json | tail -n3)
+    
+    if [ ! -z "$MALWARE" ]; then
+        echo "$(date) - Malware indicator detected" >> "$LOG_FILE"
+        sudo systemctl restart $WAZUH_AGENT_SERVICE
+        send_alert "AmfreOS Security Alert: Malware Activity" "Malware detected on $(hostname), Wazuh agent restarted."
+    fi
+}
+
+# Check for security updates
+check_updates() {
+    local UPDATES=$(apt list --upgradable 2>/dev/null | wc -l)
+    
+    if [ $UPDATES -gt 1 ]; then
+        echo "$(date) - Security updates available, installing..." >> "$LOG_FILE"
+        sudo apt update >> "$LOG_FILE" 2>&1
+        sudo apt upgrade -y >> "$LOG_FILE" 2>&1
+    fi
+}
+
+# Run all checks
+check_bruteforce
+check_malware
+check_updates

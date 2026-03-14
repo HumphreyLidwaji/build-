@@ -1,0 +1,37 @@
+#X11
+xorg
+xinit
+xserver-xorg-video-amdgpu
+
+#Input
+xserver-xorg-input-all
+
+#CPUmicrocode
+amd64-microcode
+intel-microcode
+thermald
+
+#Filesystems
+btrfs-progs
+dosfstools
+e2fsprogs
+exfatprogs
+f2fs-tools
+mtools
+ntfs-3g
+xfsprogs
+mdadm
+lvm2
+
+# Firmware
+firmware-linux
+firmware-realtek
+firmware-iwlwifi
+firmware-sof-signed
+
+# Hardware tools
+lshw
+memtest86+
+pciutils
+usbutils
+hwdata

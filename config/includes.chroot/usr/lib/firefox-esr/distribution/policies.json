@@ -1,0 +1,122 @@
+{
+  "policies": {
+
+    "DisplayBookmarksToolbar": "newtab",
+
+    "Homepage": {
+      "URL": "https://humphreylidwaji.github.io/AmfreOS/",
+      "StartPage": "homepage"
+    },
+
+    "ManagedBookmarks": [
+      {
+        "toplevel_name": "Kenyan Sites"
+      },
+      {
+        "name": "DuckDuckGo",
+        "url": "https://duckduckgo.com"
+      },
+      {
+        "toplevel_name": "Kenya"
+      },
+      {
+        "name": "eCitizen",
+        "url": "https://www.ecitizen.go.ke"
+      },
+      {
+        "name": "NTSA",
+        "url": "https://ntsa.go.ke"
+      },
+      {
+        "name": "KRA iTax",
+        "url": "https://itax.kra.go.ke"
+      },
+      {
+        "name": "Safaricom",
+        "url": "https://www.safaricom.co.ke"
+      },
+      {
+        "name": "Nation Africa",
+        "url": "https://nation.africa"
+      },
+      {
+        "name": "The Standard",
+        "url": "https://www.standardmedia.co.ke"
+      },
+      {
+        "name": "Citizen Digital",
+        "url": "https://citizen.digital"
+      },
+      {
+        "toplevel_name": "Development"
+      },
+      {
+        "name": "GitHub",
+        "url": "https://github.com"
+      },
+      {
+        "name": "CompileNRun",
+        "url": "https://www.compilenrun.com/"
+      }
+    ],
+
+    "SearchEngines": {
+      "Default": "DuckDuckGo",
+      "Remove": ["Amazon.com", "eBay"],
+      "Engines": [
+        {
+          "Name": "DuckDuckGo",
+          "URLTemplate": "https://duckduckgo.com/?q={searchTerms}",
+          "IconURL": "https://duckduckgo.com/favicon.ico",
+          "Alias": "ddg",
+          "Default": true
+        },
+        {
+          "Name": "Nation Search",
+          "URLTemplate": "https://nation.africa/search?q={searchTerms}",
+          "Alias": "nation"
+        }
+      ]
+    },
+
+    "SearchSuggestEnabled": true,
+
+    "DisableTelemetry": true,
+    "DisableFirefoxStudies": true,
+
+    "Cookies": {
+      "Default": true,
+      "AcceptThirdParty": "from-visited",
+      "RejectTracker": true
+    },
+
+    "DNSOverHTTPS": {
+      "Enabled": true,
+      "ProviderURL": "https://mozilla.cloudflare-dns.com/dns-query"
+    },
+
+    "EnableTrackingProtection": {
+      "Value": true,
+      "Cryptomining": true,
+      "Fingerprinting": true
+    },
+
+    "FirefoxHome": {
+      "Search": true,
+      "TopSites": true,
+      "Pocket": false,
+      "Highlights": false,
+      "Snippets": false
+    },
+
+    "HardwareAcceleration": true,
+
+    "NetworkPrediction": false,
+
+    "PopupBlocking": {
+      "Default": true
+    },
+
+    "PromptForDownloadLocation": true
+  }
+}

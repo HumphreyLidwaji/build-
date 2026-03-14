@@ -1,0 +1,19 @@
+#!/bin/bash
+
+echo "Applying AmfreOS Security Hardening..."
+
+sudo apt install -y ufw fail2ban
+
+sudo ufw allow 22/tcp
+sudo ufw allow 1514/tcp
+sudo ufw allow 1515/tcp
+sudo ufw allow 443/tcp
+
+sudo ufw --force enable
+
+sudo systemctl enable fail2ban
+sudo systemctl start fail2ban
+
+sudo chmod -R go-rwx /var/ossec
+
+echo "Hardening complete."
